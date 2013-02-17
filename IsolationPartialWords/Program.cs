@@ -31,30 +31,7 @@ namespace IsolationPartialWords
             Console.Read();
         }
 
-        private static char[][] GetCharacterArray(string input, int p, int q)
-        {
-            int l = input.Length;
-
-            char[][] charArray = new char[q][];
-
-
-            for (int i = 0; i < q; i++)
-            {
-                char[] chars = new char[l / q + 1];
-
-                for (int j = 0; j <= l / q; j++)
-                {
-                    if (q * j + i < l)
-                    {
-                        chars[j] = input[q * j + i];
-                    }
-                }
-
-                charArray[i] = chars;
-            }
-
-            return charArray;
-        } 
+        
 
         private static bool Find1Isolation(string input, int[] S, int[] H, int p, int q)
         {
