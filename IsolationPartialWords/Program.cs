@@ -12,13 +12,17 @@ namespace IsolationPartialWords
         {
             String input = "cc^aa^^^^aa^bb^aa^b^a^^^g^h^e^d^eee^eeeee^e^e^f^f^ffffff^fff^i^f";
 
-            char ch = 'f';
+            Console.WriteLine("Please enter the character you want to see isolations for : ");
+            char ch = Convert.ToChar(Console.Read());
+
+            Console.WriteLine("Your string : " + input);
+            Console.WriteLine("Checking isolations......");
 
             bool is_1isolated = Find1Isolation(input, GetS(input, new char[]{ ch }), GetH(input), 1, 5);
             bool is_2isolated = Find2Isolation(input, GetS(input, new char[]{ ch }), GetH(input), 1, 5);
             bool is_3isolated = Find3Isolation(input, GetS(input, new char[]{ ch }), GetH(input), 1, 5);
 
-            Console.WriteLine("{0} is \n\n1 isolated: {1} \n2 isolated: {2} \n3 isolated: {3}", ch.ToString(),
+            Console.WriteLine("\n\n{0} is \n\n1 isolated: {1} \n2 isolated: {2} \n3 isolated: {3}", ch.ToString(),
                               is_1isolated.ToString(), is_2isolated.ToString(), is_3isolated.ToString());
                                                       
 
