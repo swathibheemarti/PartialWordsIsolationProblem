@@ -12,9 +12,15 @@ namespace IsolationPartialWords
         {
             String input = "cc^aa^^^^aa^bb^aa^b^a^^^g^h^e^d^eee^eeeee^e^e^f^f^ffffff^fff^i^f";
 
-            //char[][] arrChars =  GetCharacterArray(input, 1, 5);
+            char ch = 'f';
 
-            bool isa1isolated = Find1Isolation(input, 'e',  GetS(input, new char[]{'a','b','c'}), GetH(input), 1, 5);
+            bool is_1isolated = Find1Isolation(input, GetS(input, new char[]{ ch }), GetH(input), 1, 5);
+            bool is_2isolated = Find2Isolation(input, GetS(input, new char[]{ ch }), GetH(input), 1, 5);
+            bool is_3isolated = Find3Isolation(input, GetS(input, new char[]{ ch }), GetH(input), 1, 5);
+
+            Console.WriteLine("{0} is \n\n1 isolated: {1} \n2 isolated: {2} \n3 isolated: {3}", ch.ToString(),
+                              is_1isolated.ToString(), is_2isolated.ToString(), is_3isolated.ToString());
+                                                      
 
 
 
@@ -46,47 +52,98 @@ namespace IsolationPartialWords
             return charArray;
         } 
 
-        private static bool Find1Isolation(string input, char ch, int[] S, int[] H, int p, int q)
+        private static bool Find1Isolation(string input, int[] S, int[] H, int p, int q)
         {
             bool is1Isolated = true;
 
-            for (int i = 0; i < input.Length; i++)
+            for (int i = 0; i < S.Length; i++)
             {
                 bool left = true, right = true, above = true, below = true;
 
-                if (input[i] == ch)
+                if (S[i] >= q)
                 {
-                    if (S.Contains(i) && i >= q)
-                    {
-                        left = S.Contains(i - q) || H.Contains(i - q);
-                    }
+                    left = S.Contains(S[i] - q) || H.Contains(S[i] - q);
+                }
 
-                    if (S.Contains(i))
-                    {
-                        right = S.Contains(i + q) || H.Contains(i + q);
-                    }
+                right = S.Contains(S[i] + q) || H.Contains(S[i] + q);
 
-                    if (S.Contains(i) && i >= p)
-                    {
-                        above = S.Contains(i - p) || H.Contains(i - p);
-                    }
 
-                    if (S.Contains(i))
-                    {
-                        below = S.Contains(i + p) || H.Contains(i + p);
-                    }
+                if (S[i] >= p)
+                {
+                    above = S.Contains(S[i] - p) || H.Contains(S[i] - p);
+                }
 
-                    is1Isolated = left && right && above && below;
+                below = S.Contains(S[i] + p) || H.Contains(S[i] + p);
 
-                    if (!is1Isolated)
-                    {
-                        break;
-                    }
+                is1Isolated = left && right && above && below;
+
+                if (!is1Isolated)
+                {
+                    break;
                 }
             }
 
             return is1Isolated;
         }
+
+        private static bool Find2Isolation(string input, int[] S, int[] H, int p, int q)
+        {
+            bool is1Isolated = true;
+
+            for (int i = 0; i < S.Length; i++)
+            {
+                bool left = true, right = true, above = true, below = true;
+
+                left  = S.Contains(S[i] - q) || H.Contains(S[i] - q);
+                right = S.Contains(S[i] + q) || H.Contains(S[i] + q);
+                above = S.Contains(S[i] - p) || H.Contains(S[i] - p);
+                below = S.Contains(S[i] + p) || H.Contains(S[i] + p);
+
+                is1Isolated = left && right && above && below;
+
+                if (!is1Isolated)
+                {
+                    break;
+                }
+            }
+
+            return is1Isolated;
+        }
+
+        private static bool Find3Isolation(string input, int[] S, int[] H, int p, int q)
+        {
+            bool is1Isolated = true;
+
+            for (int i = 0; i < S.Length; i++)
+            {
+                bool left = true, right = true, above = true, below = true;
+
+                left = S.Contains(S[i] - q) || H.Contains(S[i] - q);
+
+                if (S[i] < input.Length - q)
+                {
+                    right = S.Contains(S[i] + q) || H.Contains(S[i] + q);    
+                }
+                
+                
+                above = S.Contains(S[i] - p) || H.Contains(S[i] - p);
+                
+                if (S[i] < input.Length - p)
+                {
+                    below = S.Contains(S[i] + p) || H.Contains(S[i] + p);    
+                }
+
+                is1Isolated = left && right && above && below;
+
+                if (!is1Isolated)
+                {
+                    break;
+                }
+            }
+
+            return is1Isolated;
+        }
+        
 
         private static int[] GetS(string input, char[] subsetChars)
         {
